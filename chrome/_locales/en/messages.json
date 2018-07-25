@@ -1,0 +1,20 @@
+{
+   "extDes": {
+      "message": "Replaces the New Tab page with a blank one."
+   },
+   "extName": {
+      "message": "New Tab Page"
+   },
+   "name": {
+      "message": "中文"
+   },
+   "openInIncognitoWindow": {
+      "message": "Open in incognito window"
+   },
+   "openInNewTab": {
+      "message": "Open in new tab"
+   },
+   "openInNewWindow": {
+      "message": "Open in new window"
+   }
+}

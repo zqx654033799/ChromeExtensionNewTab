@@ -1,0 +1,20 @@
+{
+   "extDes": {
+      "message": "替换您在打开新标签页时看到的页面"
+   },
+   "extName": {
+      "message": "新标签页"
+   },
+   "name": {
+      "message": "中文"
+   },
+   "openInIncognitoWindow": {
+      "message": "在隐身窗口中打开"
+   },
+   "openInNewTab": {
+      "message": "在新标签页中打开"
+   },
+   "openInNewWindow": {
+      "message": "在新窗口中打开"
+   }
+}
