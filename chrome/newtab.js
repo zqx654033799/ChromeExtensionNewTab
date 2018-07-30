@@ -6,6 +6,14 @@ window.onblur = function() {
 
     console.log("window.onblur");
 }
+window.onload = function() {
+    document.title=chrome.i18n.getMessage('extName');
+    if (window.devicePixelRatio == 1) {
+        document.body.style.backgroundSize='544px 184px';
+    } else {
+        document.body.style.backgroundSize='272px 92px';
+    }
+}
 window.oncontextmenu = function(e) {
     e.preventDefault();
 }
@@ -23,6 +31,22 @@ function createTag(name) {
 
 var hColor = '#d0d0d0';
 var popupisshow;
+
+function getImgSrc(type, url) {
+    if (type == 0) {
+        if (window.devicePixelRatio == 1) {
+            return url;
+        } else {
+            return url.replace(/.png/, '@2x.png');
+        }
+    } else if (type == 1) {
+        if (window.devicePixelRatio == 1) {
+            return 'chrome://favicon/size/16/' + url;
+        } else {
+            return 'chrome://favicon/size/32/' + url;
+        }
+    }
+}
 
 function updateTabLocation(url) {
     chrome.tabs.update({url});
@@ -167,7 +191,7 @@ function showPopupFunction(li, tree) {
 
         var tree_li=createTag('li');
         var tree_img=createTag('img');
-        tree_img.setAttribute('src', 'chrome://favicon/size/16/' + treeItem.url);
+        tree_img.setAttribute('src', getImgSrc(1, treeItem.url));
         var tree_span=createTag('span');
         tree_span.innerText=treeItem.title;
         tree_li.appendChild(tree_img);
@@ -208,7 +232,7 @@ chrome.bookmarks.getTree(
 
         var apps_li=createTag('li');
         var apps_img=createTag('img');
-        apps_img.setAttribute('src', 'icon_apps.png');
+        apps_img.setAttribute('src', getImgSrc(0, 'icon_apps.png'));
         var apps_span=createTag('span');
         apps_span.innerText="应用";
         apps_li.appendChild(apps_img);
@@ -219,7 +243,7 @@ chrome.bookmarks.getTree(
 
         var bookmarks_li=createTag('li');
         var bookmarks_img=createTag('img');
-        bookmarks_img.setAttribute('src', 'icon_bookmarks.png');
+        bookmarks_img.setAttribute('src', getImgSrc(0, 'icon_bookmarks.png'));
         var bookmarks_span=createTag('span');
         bookmarks_span.innerText="书签";
         bookmarks_li.appendChild(bookmarks_img);
@@ -234,7 +258,7 @@ chrome.bookmarks.getTree(
             if (tree.dateGroupModified || tree.children || typeof tree.url == 'undefined') {
                 var tree_li=createTag('li');
                 var tree_img=createTag('img');
-                tree_img.setAttribute('src', 'icon_folder.png');
+                tree_img.setAttribute('src', getImgSrc(0, 'icon_folder.png'));
                 var tree_span=createTag('span');
                 tree_span.innerText=tree.title;
                 tree_li.appendChild(tree_img);
@@ -245,7 +269,7 @@ chrome.bookmarks.getTree(
             } else {
                 var tree_li=createTag('li');
                 var tree_img=createTag('img');
-                tree_img.setAttribute('src', 'chrome://favicon/size/16/' + tree.url);
+                tree_img.setAttribute('src', getImgSrc(1, tree.url));
                 var tree_span=createTag('span');
                 tree_span.innerText=tree.title;
                 tree_li.appendChild(tree_img);
