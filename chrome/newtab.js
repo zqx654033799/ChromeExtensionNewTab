@@ -7,7 +7,7 @@ window.onblur = function() {
     console.log("window.onblur");
 }
 window.onload = function() {
-    document.title=chrome.i18n.getMessage('extName');
+    document.title=chrome.i18n.getMessage('newTab');
     if (window.devicePixelRatio == 1) {
         document.body.style.backgroundSize='544px 184px';
     } else {
@@ -282,4 +282,7 @@ chrome.bookmarks.getTree(
     }
 );
 
+chrome.bookmarks.onCreated.addListener(function(bookmark){location.reload();});
+chrome.bookmarks.onRemoved.addListener(function(id, removeInfo){location.reload();});
 chrome.bookmarks.onChanged.addListener(function(id, changeInfo){location.reload();});
+chrome.bookmarks.onMoved.addListener(function(id, moveInfo){location.reload();});

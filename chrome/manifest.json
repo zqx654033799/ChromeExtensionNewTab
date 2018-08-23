@@ -17,7 +17,7 @@
       "256": "icon256.png"
    },
    "manifest_version": 2,
-   "name": "新标签页",
+   "name": "__MSG_extName__",
    "permissions": [ "chrome://favicon/", "bookmarks", "storage" ],
    "version": "0.0.1"
 }

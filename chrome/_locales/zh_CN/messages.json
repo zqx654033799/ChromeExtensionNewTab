@@ -8,6 +8,9 @@
    "name": {
       "message": "中文"
    },
+   "newTab": {
+      "message": "新标签页"
+   },
    "openInIncognitoWindow": {
       "message": "在隐身窗口中打开"
    },
