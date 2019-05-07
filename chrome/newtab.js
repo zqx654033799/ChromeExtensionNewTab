@@ -6,6 +6,14 @@ window.onblur = function() {
 
     console.log("window.onblur");
 }
+window.onload = function() {
+    document.title=chrome.i18n.getMessage('newTab');
+    if (window.devicePixelRatio == 2) {
+        document.body.style.backgroundSize='500px 169px';
+    } else {
+        document.body.style.backgroundSize='1000px 338px';
+    }
+}
 window.oncontextmenu = function(e) {
     e.preventDefault();
 }
@@ -23,22 +31,6 @@ function createTag(name) {
 
 var hColor = '#d0d0d0';
 var popupisshow;
-
-function getImgSrc(type, url) {
-    if (type == 0) {
-        if (window.devicePixelRatio == 1) {
-            return url;
-        } else {
-            return url.replace(/.png/, '@2x.png');
-        }
-    } else if (type == 1) {
-        if (window.devicePixelRatio == 1) {
-            return 'chrome://favicon/size/16/' + url;
-        } else {
-            return 'chrome://favicon/size/32/' + url;
-        }
-    }
-}
 
 function updateTabLocation(url) {
     chrome.tabs.update({url});
