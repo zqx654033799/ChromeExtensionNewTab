@@ -8,10 +8,10 @@ window.onblur = function() {
 }
 window.onload = function() {
     document.title=chrome.i18n.getMessage('newTab');
-    if (window.devicePixelRatio == 2) {
-        document.body.style.backgroundSize='500px 169px';
+    if (window.devicePixelRatio == 1) {
+        document.body.style.backgroundSize='544px 184px';
     } else {
-        document.body.style.backgroundSize='1000px 338px';
+        document.body.style.backgroundSize='272px 92px';
     }
 }
 window.oncontextmenu = function(e) {
@@ -31,6 +31,22 @@ function createTag(name) {
 
 var hColor = '#d0d0d0';
 var popupisshow;
+
+function getImgSrc(type, url) {
+    if (type == 0) {
+        if (window.devicePixelRatio == 1) {
+            return url;
+        } else {
+            return url.replace(/.png/, '@2x.png');
+        }
+    } else if (type == 1) {
+        if (window.devicePixelRatio == 1) {
+            return 'chrome://favicon/size/16/' + url;
+        } else {
+            return 'chrome://favicon/size/32/' + url;
+        }
+    }
+}
 
 function updateTabLocation(url) {
     chrome.tabs.update({url});
@@ -126,7 +142,6 @@ function bindLocationFunction(li, src) {
     li.onmousemove = function(){
         if (popupisshow) {
             hidePopupFunction(this);
-            popupisshow = this;
         }
     }
 }
@@ -135,9 +150,6 @@ function bindPopupFunction(li, tree) {
     bindOnClickFunction(li, tree);
     li.onmousemove = function(){
         if (popupisshow) {
-            if (popupisshow == this) {
-                return;
-            }
             showPopupFunction(this, tree);
             popupisshow = this;
 
@@ -179,7 +191,7 @@ function showPopupFunction(li, tree) {
 
         var tree_li=createTag('li');
         var tree_img=createTag('img');
-        tree_img.setAttribute('src', 'chrome://favicon/size/32/' + treeItem.url);
+        tree_img.setAttribute('src', getImgSrc(1, treeItem.url));
         var tree_span=createTag('span');
         tree_span.innerText=treeItem.title;
         tree_li.appendChild(tree_img);
@@ -220,7 +232,7 @@ chrome.bookmarks.getTree(
 
         var apps_li=createTag('li');
         var apps_img=createTag('img');
-        apps_img.setAttribute('src', 'icon_apps.png');
+        apps_img.setAttribute('src', getImgSrc(0, 'icon_apps.png'));
         var apps_span=createTag('span');
         apps_span.innerText="应用";
         apps_li.appendChild(apps_img);
@@ -231,7 +243,7 @@ chrome.bookmarks.getTree(
 
         var bookmarks_li=createTag('li');
         var bookmarks_img=createTag('img');
-        bookmarks_img.setAttribute('src', 'icon_bookmarks.png');
+        bookmarks_img.setAttribute('src', getImgSrc(0, 'icon_bookmarks.png'));
         var bookmarks_span=createTag('span');
         bookmarks_span.innerText="书签";
         bookmarks_li.appendChild(bookmarks_img);
@@ -240,13 +252,24 @@ chrome.bookmarks.getTree(
         bindLocationFunction(bookmarks_li, 'chrome://bookmarks/');
         bookmarkTree.appendChild(bookmarks_li);
 
+        var google_li=createTag('li');
+        var google_img=createTag('img');
+        google_img.setAttribute('src', getImgSrc(0, 'icon_google.png'));
+        var google_span=createTag('span');
+        google_span.innerText="主页";
+        google_li.appendChild(google_img);
+        google_li.appendChild(google_span);
+        google_li.setAttribute('class', 'site');
+        bindLocationFunction(google_li, 'https://google.com/');
+        bookmarkTree.appendChild(google_li);
+
         var bookmark=bookmarkArray[0].children[0].children;
         for (var i = 0; i < bookmark.length; i++) {
             var tree=bookmark[i];
             if (tree.dateGroupModified || tree.children || typeof tree.url == 'undefined') {
                 var tree_li=createTag('li');
                 var tree_img=createTag('img');
-                tree_img.setAttribute('src', 'icon_folder.png');
+                tree_img.setAttribute('src', getImgSrc(0, 'icon_folder.png'));
                 var tree_span=createTag('span');
                 tree_span.innerText=tree.title;
                 tree_li.appendChild(tree_img);
@@ -257,7 +280,7 @@ chrome.bookmarks.getTree(
             } else {
                 var tree_li=createTag('li');
                 var tree_img=createTag('img');
-                tree_img.setAttribute('src', 'chrome://favicon/size/32/' + tree.url);
+                tree_img.setAttribute('src', getImgSrc(1, tree.url));
                 var tree_span=createTag('span');
                 tree_span.innerText=tree.title;
                 tree_li.appendChild(tree_img);
